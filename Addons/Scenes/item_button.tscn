@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Addons/Scripts/item_button.gd" type="Script" id=1]
+[ext_resource path="res://Addons/Assets/Icons/mana.png" type="Texture" id=2]
+
+[node name="item_button" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+
+[node name="z_index" type="Node2D" parent="."]
+
+[node name="item_button" type="Button" parent="z_index"]
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+mouse_default_cursor_shape = 2
+icon = ExtResource( 2 )
+expand_icon = true
+
+[node name="amount" type="Label" parent="z_index/item_button"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 48.0
+margin_bottom = 22.0
+text = "99"
