@@ -2,11 +2,12 @@ extends PanelContainer
 
 onready var Void : Node = $"%void"
 
-export(bool) var equipped : bool = false
+export (bool) var equipped : bool = false
+export (int,"null","gun","accessory","capacete","costas","camisa","botas") var body : int = 0
 
 var new_item_button : PackedScene = preload("res://Addons/Scenes/item_button.tscn")
 var new_item_void_button : PackedScene = preload("res://Addons/Scenes/item_void_button.tscn")
-var item_id = -1
+var item_id : int = -1
 
 func _input(_event: InputEvent) -> void:
 	if _event is InputEventMouseButton:
@@ -32,11 +33,15 @@ func move_item() -> void:
 		Autoload.verific_amount_item()
 
 func create_item_void() -> void: #VERIFIQUE ONDE ESTA CRIANDO A NOVA INSTANCIA DE BOTAO, ELE SEMPRE SERA O PRIMEIRO DA LISTA
-	
 	var my_item = Autoload.search_item(item_id,"",equipped)
+	
 	if my_item != null and Autoload.save_dat.item_void != null and Autoload.save_dat.item_void.path != my_item.path:
 		var save_item = (Autoload.save_dat.item_void)
-		var new_item = Autoload.call_add_item(save_item.path, save_item.amount,false,false,get_index(),equipped)
+		var new_item = Autoload.call_add_item(
+			save_item.path, 
+			save_item.amount,
+			save_item.type,
+			false,false,get_index(),equipped)
 		
 		if equipped:Autoload.save_dat.equipped.erase(my_item)
 		else:Autoload.save_dat.inventory.erase(my_item)
@@ -54,7 +59,12 @@ func create_item_void() -> void: #VERIFIQUE ONDE ESTA CRIANDO A NOVA INSTANCIA D
 	
 	if Autoload.save_dat.item_void == null:
 		my_item.amount -= 1
-		Autoload.save_dat.item_void = {id = my_item.id,path = my_item.path,slot = -1,amount = 1}
+		
+		Autoload.save_dat.item_void = {id = my_item.id,
+			path = my_item.path,
+			type =  my_item.type,
+			slot = -1,amount = 1}
+		
 		var item_button = new_item_void_button.instance()
 		Void.add_child(item_button)
 		
@@ -63,33 +73,46 @@ func create_item_void() -> void: #VERIFIQUE ONDE ESTA CRIANDO A NOVA INSTANCIA D
 			my_item.amount -= 1
 			Autoload.save_dat.item_void.amount += 1
 		else:
-			Autoload.save_dat.item_void = {id = my_item.id,path = my_item.path,slot = -1,amount = 1}
+			Autoload.save_dat.item_void = {id = my_item.id,
+				type = my_item.type,
+				path = my_item.path,
+				slot = -1,amount = 1}
 	
 	Void.get_child(0).refresh_icon()
 	get_child(0).refresh()
 
 func verific_distance(): # Verifica a distancia.
-	if get_global_mouse_position().distance_to(rect_global_position+rect_size/2) <= rect_size.x/2:
-		self_modulate = Color.aqua
+	var moupos = get_global_mouse_position()
+	if moupos.distance_to(rect_global_position + rect_size / 2) <= rect_size.x / 2:
+		self_modulate.a = 3
 		return true
 	else:
-		self_modulate = Color.white
+		self_modulate.a = 1
 		return false
 
 func add_void_button() -> void:
-	var new_item = Autoload.call_add_item(Autoload.save_dat.item_void.path,Autoload.save_dat.item_void.amount,false,false,null,equipped)
+	var new_item = Autoload.call_add_item(
+		Autoload.save_dat.item_void.path,
+		Autoload.save_dat.item_void.amount,
+		Autoload.save_dat.item_void.type,
+		false,false,null,equipped)
+	
 	Autoload.save_dat.item_void = null
 	add_button(new_item,self,get_index())
 
 func move_void_item() -> void: #Movimenta um item para um outro slot vazio.
-	
 	if Autoload.save_dat.item_void != null:
+		
 		add_void_button()
+		
 		Autoload.slot = {node = null,item = -1}
 		return
 	
 	if Autoload.slot.item != -1:
-		verific_equipped()
+		if verific_equipped() == false:
+			Autoload.slot = {node = null,item = -1}
+			return
+		
 		add_button(Autoload.slot.item,self,get_index())
 		
 		item_id = Autoload.slot.item
@@ -99,16 +122,21 @@ func move_void_item() -> void: #Movimenta um item para um outro slot vazio.
 
 func transfer_item() -> void: #Movimenta um item para um slot ja preenchido, e faz a troca.
 	
-	if Autoload.save_dat.item_void != null:
+	if Autoload.save_dat.item_void != null: #Item que não tem Slot é considerado Item Void
 		var my_item =  Autoload.search_item(item_id,"",equipped)
+		
 		if Autoload.save_dat.item_void.path == my_item.path:
 			my_item.amount += 1
 			Autoload.save_dat.item_void.amount -= 1
+			
 			return
 		else:
-			
 			var save_item = (Autoload.save_dat.item_void)
-			var new_item = Autoload.call_add_item(save_item.path, save_item.amount,false,false,null,equipped)
+			var new_item = Autoload.call_add_item(
+					save_item.path, 
+					save_item.amount,
+					save_item.type,
+					false,false,null,equipped)
 			
 			if equipped:Autoload.save_dat.equipped.erase(my_item)
 			else:Autoload.save_dat.inventory.erase(my_item)
@@ -119,12 +147,16 @@ func transfer_item() -> void: #Movimenta um item para um slot ja preenchido, e f
 			Void.get_child(0).refresh_icon()
 			add_button(new_item,self,get_index())
 			
-			#Autoload.slot.node.item_id = item_id
-			item_id = Autoload.search_item(new_item,"",equipped)
+			item_id = Autoload.search_item(new_item,"",equipped).id
 			Autoload.slot = {node = null,item = -1}
 			return
 		
-		var new_item = Autoload.call_add_item(Autoload.save_dat.item_void.path,Autoload.save_dat.item_void.amount,false,false,null,equipped)
+		var new_item = Autoload.call_add_item(
+			Autoload.save_dat.item_void.path,
+			Autoload.save_dat.item_void.amount,
+			Autoload.save_dat.item_void.type,
+			false,false,null,equipped)
+		
 		Void.get_child(0).queue_free()
 		Autoload.save_dat.item_void = null
 		add_button(new_item,self,get_index())
@@ -136,39 +168,75 @@ func transfer_item() -> void: #Movimenta um item para um slot ja preenchido, e f
 		if Autoload.slot.node != self:
 			var my_item =  Autoload.search_item(item_id,"",equipped)
 			var other_item = Autoload.search_item(Autoload.slot.item,"",equipped)
-			
+			#--
 			if other_item == null:
 				other_item = Autoload.search_item(Autoload.slot.item,"",!equipped)
+			
 			if other_item.path == my_item.path:
 				my_item.amount += other_item.amount
 				other_item.amount = 0
 				Autoload.slot = {node = null,item = -1}
 				return
 			else:
-				verific_equipped()
+				#-
+				if verific_equipped(false) == false:
+					Autoload.slot = {node = null,item = -1}
+					return
+				
 				Autoload.slot.node.get_child(0).queue_free()
 				get_child(0).queue_free()
 				
-				add_button(Autoload.slot.item,self,get_index())
-				add_button(item_id,Autoload.slot.node,Autoload.slot.node.get_index())
+				#--
+				
+				add_button(item_id,Autoload.slot.node,other_item.slot)
+				Autoload.slot.node.add_button(Autoload.slot.item,self,get_index())
+				
+				if equipped != Autoload.slot.node.equipped:
+					if equipped:
+						Autoload.save_dat.inventory.append(my_item)
+						Autoload.save_dat.equipped.append(other_item)
+						
+						Autoload.save_dat.equipped.erase(my_item)
+						Autoload.save_dat.inventory.erase(other_item)
+					else:
+						Autoload.save_dat.equipped.append(my_item)
+						Autoload.save_dat.inventory.append(other_item)
+						
+						Autoload.save_dat.inventory.erase(my_item)
+						Autoload.save_dat.equipped.erase(other_item)
+				
 				
 				Autoload.slot.node.item_id = item_id
 				item_id = Autoload.slot.item
 				Autoload.slot = {node = null,item = -1}
 		else: Autoload.slot = {node = null,item = -1}
 
-func verific_equipped() -> void:
+func verific_equipped(refresh: bool = true):
 	var verific_item = Autoload.search_item(Autoload.slot.item,"",!equipped)
+	
 	if equipped == true:
+		
+		if verific_item != null:
+			if body != 0 and verific_item.type != body:
+				return false
+		
+		else:
+			var verific_item2 = Autoload.search_item(Autoload.slot.item,"",equipped)
+			if verific_item2 != null:
+				if verific_item2.type != body:
+					return false
+		
 		if Autoload.search_item(Autoload.slot.item,"",true):
-			return
-		Autoload.save_dat.equipped.append(verific_item)
-		Autoload.save_dat.inventory.erase(verific_item)
+			return true
+		if refresh:
+			Autoload.save_dat.equipped.append(verific_item)
+			Autoload.save_dat.inventory.erase(verific_item)
 	else:
 		if Autoload.search_item(Autoload.slot.item):
-			return
-		Autoload.save_dat.inventory.append(verific_item)
-		Autoload.save_dat.equipped.erase(verific_item)
+			return true
+		if refresh:
+			Autoload.save_dat.inventory.append(verific_item)
+			Autoload.save_dat.equipped.erase(verific_item)
 
 func add_button(item_save: int,slot,index: int) -> void: # Cria o botão do item especificado.
 	var item = Autoload.search_item(item_save,"",equipped)

@@ -5,8 +5,15 @@ signal add_item
 var itens_size : int = 12
 
 var save_dat = {
-	inventory = [{id = 0,slot = 0,amount = 5,path = "res://Addons/Scenes/itens/potion_life.tscn"}],
+	inventory = [{id = 0,slot = 0,amount = 5,type = 2,path = "res://Addons/Scenes/itens/potion_life.tscn"}],
 	equipped = [],
+	body = {gun = null,
+			accessory = null,
+			capacete = null,
+			costas = null,
+			camisa = null,
+			botas = null},
+	
 	item_void = null
 }
 
@@ -57,7 +64,7 @@ func search_item(id : int = -1, path : String = "",equipped : bool = false):
 	for itens in save_dat.inventory:
 		if itens.id == id: return itens
 
-func call_add_item(path : String, amount : int = 1,search : bool = true,id_reset = false,slot_index = null,equipped = false):
+func call_add_item(path: String, amount: int = 1, type_index: int = 0, search: bool = true, id_reset: bool = false,slot_index = null,equipped: bool = false):
 	if search == true:
 		var item = search_item(-1,path)
 		if item != null:
@@ -73,11 +80,11 @@ func call_add_item(path : String, amount : int = 1,search : bool = true,id_reset
 		id_rand = -1
 	
 	if equipped == false:
-		if slot_index == null:save_dat.inventory.append({id = id_rand,slot = procure_slot(),amount = amount,path = path})
-		else:save_dat.inventory.append({id = id_rand,slot = slot_index,amount = amount,path = path})
+		if slot_index == null:save_dat.inventory.append({id = id_rand,slot = procure_slot(),amount = amount,type = type_index,path = path})
+		else:save_dat.inventory.append({id = id_rand,slot = slot_index,amount = amount,type = type_index,path = path})
 	else:
-		if slot_index == null:save_dat.equipped.append({id = id_rand,slot = procure_slot(),amount = amount,path = path})
-		else:save_dat.equipped.append({id = id_rand,slot = slot_index,amount = amount,path = path})
+		if slot_index == null:save_dat.equipped.append({id = id_rand,slot = procure_slot(),amount = amount,type = type_index,path = path})
+		else:save_dat.equipped.append({id = id_rand,slot = slot_index,amount = amount,type = type_index,path = path})
 	
 	emit_signal("add_item")
 	

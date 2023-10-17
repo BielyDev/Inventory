@@ -4,9 +4,14 @@
 [ext_resource path="res://Addons/Assets/Icons/mana.png" type="Texture" id=2]
 
 [node name="item_button" type="Control"]
-margin_right = 40.0
-margin_bottom = 40.0
+anchor_right = 0.0546875
+anchor_bottom = 0.0933333
+size_flags_horizontal = 3
+size_flags_vertical = 3
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="z_index" type="Node2D" parent="."]
 
