@@ -6,6 +6,9 @@
 [node name="potion_life" type="Node2D"]
 script = ExtResource( 2 )
 icon = ExtResource( 1 )
+name_item = "Potion Life"
+type = 2
+description = "Potion Life recupera 40 de vida."
 
 [node name="Life" type="Sprite" parent="."]
 scale = Vector2( 0.2, 0.2 )

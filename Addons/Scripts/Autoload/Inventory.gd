@@ -2,6 +2,8 @@ extends Node
 
 signal add_item
 
+enum TYPE {null,gun,accessory,helmet,cape,chestplate,boots}
+
 var itens_size : int = 12
 
 var save_dat = {
@@ -9,10 +11,10 @@ var save_dat = {
 	equipped = [],
 	body = {gun = null,
 			accessory = null,
-			capacete = null,
-			costas = null,
-			camisa = null,
-			botas = null},
+			helmet = null,
+			cape = null,
+			chestplate = null,
+			boots = null},
 	
 	item_void = null
 }
@@ -63,6 +65,10 @@ func search_item(id : int = -1, path : String = "",equipped : bool = false):
 	
 	for itens in save_dat.inventory:
 		if itens.id == id: return itens
+
+func instantiate_item(item: String):
+	var new_item = load(item).instance()
+	return new_item
 
 func call_add_item(path: String, amount: int = 1, type_index: int = 0, search: bool = true, id_reset: bool = false,slot_index = null,equipped: bool = false):
 	if search == true:

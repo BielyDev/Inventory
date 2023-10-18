@@ -10,18 +10,18 @@ func _input(_event: InputEvent) -> void:
 			discart()
 
 func discart() -> void:
-	if is_instance_valid(Autoload.slot.node):
-		if Autoload.slot.node.equipped:
-			Autoload.save_dat.equipped.erase(Autoload.search_item(Autoload.slot.item))
-			Autoload.slot.node.get_child(0).queue_free()
-			Autoload.slot = {node = null,item = -1}
+	if is_instance_valid(Inventory.slot.node):
+		if Inventory.slot.node.equipped:
+			Inventory.save_dat.equipped.erase(Inventory.search_item(Inventory.slot.item))
+			Inventory.slot.node.get_child(0).queue_free()
+			Inventory.slot = {node = null,item = -1}
 		else:
-			Autoload.save_dat.inventory.erase(Autoload.search_item(Autoload.slot.item))
-			Autoload.slot.node.get_child(0).queue_free()
-			Autoload.slot = {node = null,item = -1}
-	if Autoload.save_dat.item_void != null:
+			Inventory.save_dat.inventory.erase(Inventory.search_item(Inventory.slot.item))
+			Inventory.slot.node.get_child(0).queue_free()
+			Inventory.slot = {node = null,item = -1}
+	if Inventory.save_dat.item_void != null:
 		Void.get_child(0).queue_free()
-		Autoload.save_dat.item_void = null
+		Inventory.save_dat.item_void = null
 
 func verific_distance(): # Verifica a distancia.
 	if get_global_mouse_position().distance_to(rect_global_position+rect_size/2) <= rect_size.x/2:

@@ -6,6 +6,9 @@
 [node name="eyes" type="Node2D"]
 script = ExtResource( 1 )
 icon = ExtResource( 3 )
+name_item = "Eyes"
+type = 2
+description = "O que os olhos não vê, o coração num sente >;"
 
 [node name="Eyes" type="Sprite" parent="."]
 scale = Vector2( 0.2, 0.2 )

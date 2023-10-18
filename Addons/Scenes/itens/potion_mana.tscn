@@ -6,6 +6,9 @@
 [node name="potion_mana" type="Node2D"]
 script = ExtResource( 2 )
 icon = ExtResource( 1 )
+name_item = "Potion Mana"
+type = 2
+description = "Porção de mana, cura 50 pontos de mana."
 
 [node name="Mana" type="Sprite" parent="."]
 scale = Vector2( 0.2, 0.2 )

@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=9 format=2]
+
+[ext_resource path="res://Addons/Assets/Font/Tres/Mono.tres" type="DynamicFont" id=1]
 
 [sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 4.5
@@ -73,7 +75,24 @@ border_width_right = 1
 border_width_bottom = 3
 border_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_left = 4.5
+content_margin_right = 4.5
+content_margin_top = 3.0
+content_margin_bottom = 3.0
+bg_color = Color( 0, 0, 0, 0.905882 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color( 1, 1, 1, 1 )
+expand_margin_left = 8.0
+expand_margin_right = 8.0
+expand_margin_top = 8.0
+expand_margin_bottom = 8.0
+
 [resource]
+default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 0.793137, 0.763726, 0.803921, 1 )
 Button/colors/font_color_disabled = Color( 1, 1, 1, 0.3 )
 Button/colors/font_color_focus = Color( 0.875882, 0.858235, 0.882353, 1 )
@@ -88,3 +107,9 @@ Button/styles/hover = SubResource( 5 )
 Button/styles/normal = SubResource( 6 )
 Button/styles/pressed = SubResource( 7 )
 PanelContainer/styles/panel = SubResource( 1 )
+TooltipLabel/colors/font_color = Color( 1, 1, 1, 1 )
+TooltipLabel/colors/font_color_shadow = Color( 0, 0, 0, 0.541176 )
+TooltipLabel/constants/shadow_offset_x = 2
+TooltipLabel/constants/shadow_offset_y = 2
+TooltipLabel/fonts/font = ExtResource( 1 )
+TooltipPanel/styles/panel = SubResource( 8 )
