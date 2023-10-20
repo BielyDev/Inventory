@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/Inventory_Template/Assets/Icons/Itens/life.png" type="Texture" id=1]
+[ext_resource path="res://addons/Inventory_Template/Scripts/item.gd" type="Script" id=2]
+
+[node name="potion_life" type="Node2D"]
+script = ExtResource( 2 )
+icon = ExtResource( 1 )
+name_item = "Potion Life"
+type = 2
+description = "Porção de vida, recupera 40 de vida."
+
+[node name="Life" type="Sprite" parent="."]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 1 )

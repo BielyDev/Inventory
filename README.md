@@ -45,8 +45,6 @@ estruturas prontas, aproveite e as copie e cole para uma cena nova.
 
 # Sobre.
 
- -Versão 0.0.4.
-  
- -Próxima versão haverá faturação de codigo.
+ -Versão 0.5.0.
   
  -Este projeto é apenas compativel com a versão da Godot Engine 3.5.x.

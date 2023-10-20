@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/Inventory_Template/Scripts/item.gd" type="Script" id=1]
+[ext_resource path="res://addons/Inventory_Template/Assets/Icons/Itens/kanoa.png" type="Texture" id=2]
+
+[node name="kanoa" type="Node2D"]
+script = ExtResource( 1 )
+icon = ExtResource( 2 )
+name_item = "Kanoa Mask"
+type = 4
+description = "Mascara almadiçoada, o poder dos mares em sua mão."
+
+[node name="Kanoa" type="Sprite" parent="."]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 2 )
