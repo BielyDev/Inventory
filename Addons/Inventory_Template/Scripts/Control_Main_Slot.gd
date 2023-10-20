@@ -8,7 +8,7 @@ var item_button
 func _ready() -> void:
 	Inventory.connect("refresh_itens",self,"refresh")
 	
-	Inventory.emit_signal("refresh_itens")
+	refresh()
 
 
 func _input(_event: InputEvent) -> void:

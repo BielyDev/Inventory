@@ -330,13 +330,12 @@ script = ExtResource( 2 )
 path_item_scene = "res://Addons/Inventory_Template/Scenes/Itens/Kanoa.tscn"
 
 [node name="Info_Equipped" type="Label" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -380.0
-margin_right = 380.0
-margin_bottom = 158.0
+margin_left = -504.0
+margin_top = 8.0
+margin_right = 256.0
+margin_bottom = 166.0
 text = "Debug info"
-align = 1
 autowrap = true
 script = SubResource( 1 )

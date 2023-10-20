@@ -42,7 +42,7 @@ estruturas prontas, aproveite e as copie e cole para uma cena nova.
 
 # Sobre.
 
- -Versão 0.0.3.
+ -Versão 0.0.4.
   
  -Próxima versão haverá faturação de codigo.
   
