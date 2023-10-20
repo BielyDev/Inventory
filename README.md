@@ -1,12 +1,15 @@
 
 # Como usar?
 
-  -Adicione o Inventory.gd em autoload do projeto em:```Project Settings>Singletons```
+  -Adicione o Inventory.gd (```res://Addons/Inventory_Template/Scripts/Autoload/Inventory.gd```) a um autoload
+do projeto :```Project Settings>Singletons```
+
     
 ![image](https://github.com/BielyDev/Inventory_Template/assets/71566495/8f8114b9-1eae-4bf6-b498-31659103ce0e)
 
 
-  -As cenas de inventarios já estão prontas pra uso, arraste para a sua cena e pronto!
+  -As cenas de inventarios já estão prontas para uso, adicione a sua cena e pronto!
+
   
 ![image](https://github.com/BielyDev/Inventory_Template/assets/71566495/0b3f04ff-eb52-404d-854b-33dac98c1491)
 
@@ -25,7 +28,7 @@ estruturas prontas, aproveite e as copie e cole para uma cena nova.
 
 # Como saber se um item foi equipado?
 
- -Em Inventory.gd (Script em Autoload) existem sinais importantes para a estrutura do inventario.
+ -Em Inventory.gd (Script em Autoload) existem sinais importantes para a estrutura do inventário.
 
 
 ![image](https://github.com/BielyDev/Inventory_Template/assets/71566495/1fd61421-0291-4ca9-9e88-0e5e6790e242)
