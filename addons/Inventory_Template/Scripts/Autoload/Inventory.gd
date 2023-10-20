@@ -114,18 +114,15 @@ func call_equipped_item(): # Atualiza os itens do corpo
 	for body in save_dat.body:
 		var bd = save_dat.body.get(body)
 		var exist_item: bool = false
-		var item
 		
 		for itens in save_dat.equipped:
-			item = itens
+			
 			if bd != null and bd.id == itens.id:
 				exist_item = true
 		
-		if exist_item == false:
-			emit_signal("unequip_item",item)
+		if bd != null and exist_item == false:
+			emit_signal("unequip_item",bd)
 			save_dat.body.merge({str(body) : null},true)
-			item = null
-			exist_item = true
 	
 	for itens in save_dat.equipped:
 		
