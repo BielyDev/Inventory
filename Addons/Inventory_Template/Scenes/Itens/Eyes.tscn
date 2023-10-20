@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Addons/Inventory_Template/Scripts/item.gd" type="Script" id=1]
+[ext_resource path="res://Addons/Inventory_Template/Assets/Icons/Itens/eyes.png" type="Texture" id=3]
+
+[node name="eyes" type="Node2D"]
+script = ExtResource( 1 )
+icon = ExtResource( 3 )
+name_item = "Eyes"
+type = 5
+description = "O que os olhos não vê, o coração num sente"
+
+[node name="Eyes" type="Sprite" parent="."]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 3 )

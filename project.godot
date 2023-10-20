@@ -10,13 +10,16 @@ config_version=4
 
 [application]
 
-config/name="Inventory"
-run/main_scene="res://Addons/Scenes/Screen.tscn"
-config/icon="res://icon.png"
+config/name="Inventory Template"
+config/description="Proxima atualização vai ter refatoração para classes e sub-classes."
+run/main_scene="res://Addons/Inventory_Template/Scenes/Screens/Menu.tscn"
+boot_splash/image="res://Addons/Inventory_Template/Assets/Icons/Project/Splash.png"
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
+config/icon="res://Addons/Inventory_Template/Assets/Icons/Itens/life.png"
 
 [autoload]
 
-Inventory="*res://Addons/Scripts/Autoload/Inventory.gd"
+Inventory="*res://Addons/Inventory_Template/Scripts/Autoload/Inventory.gd"
 
 [display]
 
@@ -26,7 +29,7 @@ window/stretch/aspect="keep"
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
-theme/custom="res://Addons/Assets/Theme_main.tres"
+theme/custom="res://Addons/Inventory_Template/Assets/Theme_main.tres"
 
 [input]
 
