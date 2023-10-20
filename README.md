@@ -1,4 +1,3 @@
-# Inventory Template
 
 # Como usar?
 
@@ -14,7 +13,7 @@
 
 # Como criar um item?
 
--Criar um item é bem simples, em ```res://Addons/Inventory_Template/Scenes/Itens``` existem modelos e 
+ -Criar um item é bem simples, em ```res://Addons/Inventory_Template/Scenes/Itens``` existem modelos e 
 estruturas prontas, aproveite e as copie e cole para uma cena nova.
 
 
@@ -22,11 +21,25 @@ estruturas prontas, aproveite e as copie e cole para uma cena nova.
 
 
 
--Após isto configure o item do seu jeito.
+ -Após isto configure o item do seu jeito.
 ```Obs: Nodes 3D também funcionam poís o item extende a classe "Node".```
 
-  -Versão 0.0.3.
-  -Proxima versão haverá faturação de codigo.
+# Como saber se um item foi equipado/desiquipado?
 
+ -Em Inventory.gd (Script em Autoload) existem sinais importantes para a estrutura do inventario.
   
-  ste projeto é compativel com a versão da Godot 3.5.x.
+![image](https://github.com/BielyDev/Inventory_Template/assets/71566495/1fd61421-0291-4ca9-9e88-0e5e6790e242)
+
+   -O argumento "item_dictionary" em casos de quaisquer item ser equipado receberá o item em dicionario, conecte
+  ao seu script usando ```Inventory.connect("equipped_item",objeto,"sua função")```
+
+![image](https://github.com/BielyDev/Inventory_Template/assets/71566495/473cb6c7-1e9b-46bf-9081-f05e7fb816f0)
+
+
+# Sobre.
+
+ -Versão 0.0.3.
+  
+ -Proxima versão haverá faturação de codigo.
+  
+ -Este projeto é apenas compativel com a versão da Godot Engine 3.5.x.
