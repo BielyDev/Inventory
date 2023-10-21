@@ -8,18 +8,14 @@ signal unequip_item(tem_dictionary) #item : Dictionary
 
 enum TYPE {null,GUN,ACCESSORY,HELMET,ENCHANTMENT,CHESTPLATE,BOOTS}
 
+var type_array : Array = []
 var itens_size : int = 12
 
 # Save_dat é um dicionario com informações prestes a seram salvas em um arquivo.
 var save_dat = {
 	inventory = [{id = 0,slot = 0,amount = 5,type = 2,path = "res://addons/Inventory_Template/Scenes/Itens/Potion_life.tscn"}],
 	equipped = [],
-	body = {gun = null,
-			accessory = null,
-			helmet = null,
-			enchantment = null,
-			chestplate = null,
-			boots = null},
+	body = {},
 	
 	item_no_slot = null
 }
@@ -110,43 +106,45 @@ func call_add_item(path: String, amount: int = 1, type_index: int = 0, search: b
 
 
 func call_equipped_item(): # Atualiza os itens do corpo
-	var arr_body = [save_dat.body]
-	for body in save_dat.body:
-		var bd = save_dat.body.get(body)
+	
+	for body in type_array:
 		var exist_item: bool = false
 		
 		for itens in save_dat.equipped:
-			
-			if bd != null and bd.id == itens.id:
+			if body.path == itens.path:
 				exist_item = true
 		
-		if bd != null and exist_item == false:
-			emit_signal("unequip_item",bd)
-			save_dat.body.merge({str(body) : null},true)
+		if exist_item == false:
+			emit_signal("unequip_item",body)
+			type_array.erase(body)
+	
 	
 	for itens in save_dat.equipped:
-		
 		match itens.type:
 			0:
 				return false
 			1:
-				save_dat.body.gun = itens
-				emit_signal("equipped_item",itens)
+				itens_body_gun(itens,TYPE.GUN)
 			2:
-				save_dat.body.accessory = itens
-				emit_signal("equipped_item",itens)
+				itens_body_gun(itens,TYPE.ACCESSORY)
 			3:
-				save_dat.body.helmet = itens
-				emit_signal("equipped_item",itens)
+				itens_body_gun(itens,TYPE.HELMET)
 			4:
-				save_dat.body.enchantment = itens
-				emit_signal("equipped_item",itens)
+				itens_body_gun(itens,TYPE.ENCHANTMENT)
 			5:
-				save_dat.body.chestplate = itens
-				emit_signal("equipped_item",itens)
+				itens_body_gun(itens,TYPE.CHESTPLATE)
 			6:
-				save_dat.body.boots = itens
-				emit_signal("equipped_item",itens)
+				itens_body_gun(itens,TYPE.BOOTS)
+
+
+func itens_body_gun(item,type_num: int) -> void:
+	
+	for itens in type_array:
+		if itens.type == type_num:
+			return
+	
+	type_array.append(item)
+	emit_signal("equipped_item",item)
 
 
 func procure_slot():
@@ -160,4 +158,5 @@ func procure_slot():
 		if num != dic[num]:
 			return num
 	return dic.size()
+
 

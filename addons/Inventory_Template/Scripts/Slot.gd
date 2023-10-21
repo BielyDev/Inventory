@@ -17,26 +17,26 @@ func move_item() -> void:
 
 
 func end_moviment() -> void:
-		if Input.is_action_just_pressed("left_click"):
-			if get_child_count() >= 1:
-				transfer_item()
-				
-			else:
-				move_void_item()
-				
-				Inventory.save_dat.item_no_slot = null
-				Inventory.slot = {node = null,item = -1}
-				Inventory.emit_signal("refresh_data")
+	if Input.is_mouse_button_pressed(BUTTON_LEFT):
+		if get_child_count() >= 1:
+			transfer_item()
 			
-			Inventory.verific_amount_item()
-			Inventory.call_equipped_item()
+		else:
+			move_void_item()
+			
+			Inventory.save_dat.item_no_slot = null
+			Inventory.slot = {node = null,item = -1}
+			Inventory.emit_signal("refresh_data")
+		
+		Inventory.verific_amount_item()
+		Inventory.call_equipped_item()
 
 
 func initial_moviment():
-	if Input.is_action_just_pressed("left_click") and Inventory.save_dat.item_no_slot == null:
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and Inventory.save_dat.item_no_slot == null:
 		set_slot_item()
 		return true
-	if Input.is_action_just_pressed("right_click"):
+	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
 		create_item_void()
 		return true
 

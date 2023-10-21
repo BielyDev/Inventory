@@ -112,7 +112,6 @@ func transfer_item(): #Movimenta um item para um slot ja preenchido, e faz a tro
 			my_item.amount += 1
 			Inventory.save_dat.item_no_slot.amount -= 1
 			
-			
 			Inventory.emit_signal("refresh_data")
 			return true
 		else:
@@ -190,6 +189,7 @@ func transfer_item(): #Movimenta um item para um slot ja preenchido, e faz a tro
 
 func verific_equipped(refresh: bool = true):
 	
+	var my_item = Inventory.search_item(slot_item_id,"",equipped)
 	var verific_item = Inventory.search_item(Inventory.slot.item,"",!equipped)
 	var verific_item_equip = Inventory.search_item(Inventory.slot.item,"",equipped)
 	var inventory_true = Inventory.search_item(Inventory.slot.item,"",true)
@@ -197,8 +197,9 @@ func verific_equipped(refresh: bool = true):
 	
 	if equipped == true:
 		if verific_item != null:
-			if body != 0 and verific_item.type != body:
-				return false
+			if body != 0:
+				if verific_item.type != body:
+					return false
 		
 		else:
 			if verific_item_equip != null:
@@ -207,14 +208,20 @@ func verific_equipped(refresh: bool = true):
 		
 		if inventory_true:
 			return true
+		
 		if refresh:
-			
 			Inventory.save_dat.equipped.append(verific_item)
 			Inventory.save_dat.inventory.erase(verific_item)
 	
 	else:
+		if inventory_true != null and my_item != null:
+			if Inventory.slot.node.body != 0:
+				if inventory_true.type != my_item.type:
+					return false
+		
 		if inventory_false:
 			return true
+		
 		if refresh:
 			Inventory.save_dat.inventory.append(verific_item)
 			Inventory.save_dat.equipped.erase(verific_item)
