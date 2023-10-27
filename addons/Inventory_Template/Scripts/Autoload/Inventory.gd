@@ -79,6 +79,7 @@ func instantiate_item(item: String):
 
 
 func call_add_item(path: String, amount: int = 1, type_index: int = 0, search: bool = true, id_reset: bool = false,slot_index = null,equipped: bool = false):
+	
 	if search == true:
 		var item = search_item(-1,path)
 		if item != null:
@@ -95,10 +96,10 @@ func call_add_item(path: String, amount: int = 1, type_index: int = 0, search: b
 		id_rand = -1
 	
 	if equipped == false:
-		if slot_index == null:save_dat.inventory.append({id = id_rand,slot = procure_slot(),amount = amount,type = type_index,path = path})
+		if slot_index == null:save_dat.inventory.append({id = id_rand,slot = procure_slot(true),amount = amount,type = type_index,path = path})
 		else:save_dat.inventory.append({id = id_rand,slot = slot_index,amount = amount,type = type_index,path = path})
 	else:
-		if slot_index == null:save_dat.equipped.append({id = id_rand,slot = procure_slot(),amount = amount,type = type_index,path = path})
+		if slot_index == null:save_dat.equipped.append({id = id_rand,slot = procure_slot(false),amount = amount,type = type_index,path = path})
 		else:save_dat.equipped.append({id = id_rand,slot = slot_index,amount = amount,type = type_index,path = path})
 	
 	emit_signal("refresh_itens")
@@ -120,21 +121,9 @@ func call_equipped_item(): # Atualiza os itens do corpo
 	
 	
 	for itens in save_dat.equipped:
-		match itens.type:
-			0:
-				return false
-			1:
-				itens_body_gun(itens,TYPE.GUN)
-			2:
-				itens_body_gun(itens,TYPE.ACCESSORY)
-			3:
-				itens_body_gun(itens,TYPE.HELMET)
-			4:
-				itens_body_gun(itens,TYPE.ENCHANTMENT)
-			5:
-				itens_body_gun(itens,TYPE.CHESTPLATE)
-			6:
-				itens_body_gun(itens,TYPE.BOOTS)
+		for typecons in TYPE.values():
+			if typecons != null and itens.type == typecons:
+				itens_body_gun(itens,typecons)
 
 
 func itens_body_gun(item,type_num: int) -> void:
@@ -147,16 +136,20 @@ func itens_body_gun(item,type_num: int) -> void:
 	emit_signal("equipped_item",item)
 
 
-func procure_slot():
+func procure_slot(equipped: bool):
 	var dic = []
 	
-	for itens in save_dat.inventory:
-		dic.append(itens.slot)
-	dic.sort()
+	if equipped:
+		for itens in save_dat.inventory:
+			dic.append(itens.slot)
+		
+	else:
+		for itens in save_dat.equipped:
+			dic.append(itens.slot)
 	
+	dic.sort()
 	for num in dic.size():
 		if num != dic[num]:
 			return num
 	return dic.size()
-
 

@@ -1,3 +1,9 @@
+# Sobre.
+
+ -Versão 0.9.0.
+  
+ -Este projeto é apenas compativel com a versão da Godot Engine 3.5.x.
+
 
 # Como usar?
 
@@ -43,8 +49,4 @@ estruturas prontas, aproveite e as copie e cole para uma cena nova.
 
   -O mesmo caso acontece com o desequipar, use ```Inventory.connect("unequip_item",objeto,"sua função")```.
 
-# Sobre.
 
- -Versão 0.8.0.
-  
- -Este projeto é apenas compativel com a versão da Godot Engine 3.5.x.

@@ -1,10 +1,12 @@
 extends Control
 
 onready var Void : Node = get_node(void_path)
+onready var Equipped_parent := get_node_or_null(equipped_parent_path)
 
 export(bool) var equipped : bool = false
 export(Inventory.TYPE) var body : int = 0
 export(NodePath) var void_path : NodePath = "../../../../itens_void"
+export(NodePath) var equipped_parent_path : NodePath = "../../../../Equipped_Panel/Vbox/Equipped"
 
 var new_item_button : PackedScene = preload("res://addons/Inventory_Template/Scenes/Buttons/Item_button.tscn")
 var new_item_no_slot_button : PackedScene = preload("res://addons/Inventory_Template/Scenes/Buttons/Item_no_slot_button.tscn")
@@ -80,6 +82,67 @@ func verific_distance(): # Verifica a distancia do mouse ao slot.
 		return false
 
 
+func shift_move() -> void:
+	var my_item = Inventory.search_item(slot_item_id,"",equipped)
+	var verific_item = Inventory.search_item(-1,my_item.path,!equipped)
+	
+	if verific_item != null:
+		verific_item.amount += my_item.amount
+		slot_item_id = -1
+		
+		if equipped: Inventory.save_dat.equipped.erase(my_item)
+		else: Inventory.save_dat.inventory.erase(my_item)
+		
+		Inventory.emit_signal("refresh_itens")
+		Inventory.call_equipped_item()
+	else:
+		if _create_item_shift(my_item) == false: return
+		
+		if equipped: Inventory.save_dat.equipped.erase(my_item)
+		else: Inventory.save_dat.inventory.erase(my_item)
+		slot_item_id = -1
+		Inventory.call_equipped_item()
+		Inventory.emit_signal("refresh_itens")
+
+
+func _create_item_shift(my_item):
+	if my_item.type == Inventory.TYPE.null or equipped:
+		Inventory.call_add_item(
+			my_item.path,
+			my_item.amount,
+			my_item.type,
+			false,
+			false,
+			null,
+			!equipped)
+		return true
+	else:
+		for slots in Equipped_parent.get_children():
+			
+			if slots.body == my_item.type:
+				if slots.slot_item_id != -1: return false
+				Inventory.call_add_item(
+					my_item.path,
+					my_item.amount,
+					my_item.type,
+					false,
+					false,
+					slots.get_index(),
+					!equipped)
+				
+				return true
+		
+		Inventory.call_add_item(
+			my_item.path,
+			my_item.amount,
+			my_item.type,
+			false,
+			false,
+			null,
+			!equipped)
+		return true
+
+
 func move_void_item(): #Movimenta um item para um outro slot vazio.
 	var inv_slot_item = Inventory.search_item(Inventory.slot.item)
 	
@@ -92,10 +155,11 @@ func move_void_item(): #Movimenta um item para um outro slot vazio.
 		if verific_equipped() == false:
 			return false
 		
-		add_button(Inventory.slot.item,self,get_index()
-		)
+		add_button(Inventory.slot.item,self,get_index())
+		
 		slot_item_id = Inventory.slot.item
 		
+		Inventory.slot.node.slot_item_id = -1
 		Inventory.slot.node.get_child(0).queue_free()
 		
 		return true

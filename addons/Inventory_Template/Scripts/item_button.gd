@@ -32,11 +32,14 @@ func refresh() -> void: # Verifica se o item ainda existe e a quantidade.
 	var item_search = Inventory.search_item(item.id,"",get_parent().equipped)
 	
 	if item_search == null:
+		get_parent().slot_item_id = -1
 		queue_free()
 	else:
 		if item_search.amount == 0:
+			get_parent().slot_item_id = -1
 			queue_free()
 	
+	get_parent().slot_item_id = item.id
 	amount_text.text = str(item.amount)
 
 
