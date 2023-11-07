@@ -36,11 +36,19 @@ func refresh() -> void: # Verifica se o item ainda existe e a quantidade.
 		queue_free()
 	else:
 		if item_search.amount == 0:
+			erase(item_search)
 			get_parent().slot_item_id = -1
 			queue_free()
 	
 	get_parent().slot_item_id = item.id
 	amount_text.text = str(item.amount)
+
+
+func erase(item) -> void:
+	if get_parent().equipped:
+		Inventory.save_dat.equipped.erase(item)
+	else:
+		Inventory.save_dat.inventory.erase(item)
 
 
 func _on_item_button_draw() -> void:

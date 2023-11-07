@@ -52,8 +52,7 @@ func verific_size(equipped:bool,path = ""):
 	return true
 
 
-func search_item(id : int = -1, path : String = "",equipped : bool = false):
-	
+func search_item(id : int = -1, path : String = "",equipped : bool = false): # Procura o item com id especificado.
 	if equipped == true:
 		if path != "":
 			for itens in save_dat.equipped:
@@ -71,6 +70,17 @@ func search_item(id : int = -1, path : String = "",equipped : bool = false):
 	
 	for itens in save_dat.inventory:
 		if itens.id == id: return itens
+
+
+func search_item_slot(slot: int,equipped: bool): #Procura o item no slot especificado.
+	if equipped:
+		for itens in save_dat.equipped:
+			if itens.slot == slot:
+				return itens
+	else:
+		for itens in save_dat.inventory:
+			if itens.slot == slot:
+				return itens
 
 
 func instantiate_item(item: String):
@@ -127,7 +137,6 @@ func call_equipped_item(): # Atualiza os itens do corpo
 
 
 func itens_body_gun(item,type_num: int) -> void:
-	
 	for itens in type_array:
 		if itens.type == type_num:
 			return

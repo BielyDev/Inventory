@@ -105,7 +105,7 @@ func shift_move() -> void:
 		Inventory.emit_signal("refresh_itens")
 
 
-func _create_item_shift(my_item):
+func _create_item_shift(my_item: Dictionary):
 	if my_item.type == Inventory.TYPE.null or equipped:
 		Inventory.call_add_item(
 			my_item.path,

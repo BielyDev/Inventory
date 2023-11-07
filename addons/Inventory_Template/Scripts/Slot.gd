@@ -10,6 +10,7 @@ func _input(_event: InputEvent) -> void:
 
 
 
+
 func move_item() -> void:
 	if verific_distance():
 		if get_child_count() >= 1 and Inventory.slot.node == null:
