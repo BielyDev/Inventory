@@ -227,6 +227,9 @@ func transfer_item(): #Movimenta um item para um slot ja preenchido, e faz a tro
 				my_item.amount += other_item.amount
 				other_item.amount = 0
 				Inventory.slot = {node = null,item = -1}
+				
+				yield(get_tree().create_timer(0.05),"timeout")
+				Inventory.emit_signal("refresh_itens")
 				return false
 			else:
 				if verific_equipped(false) == false:

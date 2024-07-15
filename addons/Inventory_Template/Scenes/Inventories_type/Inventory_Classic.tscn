@@ -280,7 +280,6 @@ margin_right = 144.0
 margin_bottom = 40.0
 
 [node name="Info_Equipped" type="Label" parent="Debbug"]
-visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -12.0

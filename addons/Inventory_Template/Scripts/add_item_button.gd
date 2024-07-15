@@ -10,4 +10,4 @@ func _pressed() -> void:
 			amount,
 			Inventory.instantiate_item(path_item_scene).type
 		)
-
+	

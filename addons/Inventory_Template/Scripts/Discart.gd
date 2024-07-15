@@ -14,13 +14,18 @@ func _input(_event: InputEvent) -> void:
 func discart() -> void:
 	if is_instance_valid(Inventory.slot.node):
 		if Inventory.slot.node.equipped:
-			Inventory.emit_signal("discart_item",Inventory.save_dat.equipped)
-			Inventory.save_dat.equipped.erase(Inventory.search_item(Inventory.slot.item))
+			var item = Inventory.search_item(Inventory.slot.item,"",true)
+			
+			Inventory.emit_signal("discart_item",item)
+			Inventory.save_dat.equipped.erase(item)
 			
 			Inventory.slot.node.get_child(0).queue_free()
 			Inventory.slot = {node = null,item = -1}
 		else:
-			Inventory.save_dat.inventory.erase(Inventory.search_item(Inventory.slot.item))
+			var item = Inventory.search_item(Inventory.slot.item)
+			
+			Inventory.emit_signal("discart_item",item)
+			Inventory.save_dat.inventory.erase(item)
 			
 			Inventory.slot.node.get_child(0).queue_free()
 			Inventory.slot = {node = null,item = -1}
