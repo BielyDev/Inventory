@@ -40,7 +40,7 @@ func item_void_queue() -> void:
 
 
 func verific_distance(): # Verifica a distancia.
-	if get_global_mouse_position().distance_to(rect_global_position+rect_size/2) <= rect_size.x/2:
+	if Inventory.support.mouse_position.distance_to(rect_global_position+rect_size/2) <= rect_size.x/2:
 		self_modulate = Color.red
 		return true
 	else:

@@ -1,22 +1,28 @@
 extends "res://addons/Inventory_Template/Scripts/Slot_extends.gd"
 
 
-
 func _input(_event: InputEvent) -> void:
 	if _event is InputEventMouseButton:
-		move_item()
+		move_item(_event)
+	
 	if _event is InputEventMouseMotion:
-		verific_distance()
+		verific_distance(_event)
 
 
 
-
-func move_item() -> void:
-	if verific_distance():
-		if get_child_count() >= 1 and Inventory.slot.node == null:
-			if initial_moviment(): return
+func move_item(_event) -> void:
+	
+	if verific_distance(_event):
+		if get_child_count() >= 1:
+			if Inventory.slot.node == null:
+				if initial_moviment(): return
 		
-		end_moviment()
+		if Inventory.support.system_button == Support.SYSTEM_BUTTON.MOBILE:
+			if _event.pressed == false:
+				end_moviment()
+		else:
+			if Input.is_mouse_button_pressed(BUTTON_LEFT):
+				end_moviment()
 
 
 func initial_moviment():
@@ -33,16 +39,16 @@ func initial_moviment():
 
 
 func end_moviment() -> void:
-	if Input.is_mouse_button_pressed(BUTTON_LEFT):
-		if get_child_count() >= 1:
-			transfer_item()
-		else:
-			move_void_item()
-			
-			Inventory.save_dat.item_no_slot = null
-			Inventory.slot = {node = null,item = -1}
-			Inventory.emit_signal("refresh_data")
+	if get_child_count() >= 1:
+		transfer_item()
+	else:
+		move_void_item()
 		
-		Inventory.verific_amount_item()
-		Inventory.call_equipped_item()
+		Inventory.save_dat.item_no_slot = null
+		Inventory.slot = {node = null,item = -1}
+		Inventory.emit_signal("refresh_data")
+	
+	Inventory.verific_amount_item()
+	Inventory.call_equipped_item(use_type)
+
 

@@ -4,12 +4,14 @@ export(int,"inventory","equip") var Mode
 
 var new_item_button : PackedScene = preload("res://addons/Inventory_Template/Scenes/Buttons/Item_button.tscn")
 var item_button
+var timer_reset: Timer = Timer.new()
+
 
 func _ready() -> void:
 	Inventory.connect("refresh_itens",self,"refresh")
+	Inventory.connect("item_data",self,"add_item")
 	
 	refresh()
-
 
 func _input(_event: InputEvent) -> void:
 	if _event is InputEventMouseMotion:
@@ -21,7 +23,7 @@ func item_moviment() -> void: # Movimentar o item com o mouse.
 	if is_instance_valid(Inventory.slot.node) and Inventory.slot.node.get_children().size() >= 1:
 		item_button = Inventory.slot.node
 		
-		item_button.get_child(0).rect_global_position = get_global_mouse_position()-item_button.rect_size/2
+		item_button.get_child(0).rect_global_position = Inventory.support.mouse_position-item_button.rect_size/2
 		item_button.get_child(0).get_child(0).z_index = 1
 	
 	if item_button != Inventory.slot.node:
@@ -43,6 +45,14 @@ func refresh() -> void: # Apaga todos os itens da interface e adiciona novamente
 	if Mode == 1:
 		for itens in Inventory.save_dat.equipped: #Adiciona nos equipados.
 			create_buttons(itens)
+
+
+func add_item(item: Dictionary) -> void:
+	
+	var search_item = Inventory.search_item(item.id,"",Mode)
+	
+	if search_item != null:
+		create_buttons(item)
 
 
 func create_buttons(itens) -> void:

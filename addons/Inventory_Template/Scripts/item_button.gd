@@ -15,8 +15,13 @@ func _ready() -> void:
 
 
 func ready_button() -> void:
-	var item_scene = Inventory.instantiate_item(item.path)
+	var item_scene = load(item.resource_path).instance()
 	
+	call_deferred("add_child",item_scene)
+	call_deferred("personalize_button",item_scene)
+
+
+func personalize_button(item_scene ) -> void:
 	var type_str: String = str(Inventory.TYPE.keys()[item_scene.type]).to_lower().capitalize()
 	
 	button.icon = item_scene.icon
@@ -26,6 +31,8 @@ func ready_button() -> void:
 		"Amount: ",item.amount,"\n\n",
 		"Description: \n  ",item_scene.description
 	)
+	
+	item_scene.queue_free()
 
 
 func refresh() -> void: # Verifica se o item ainda existe e a quantidade.
